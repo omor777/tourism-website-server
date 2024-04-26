@@ -43,6 +43,11 @@ async function run() {
       res.send(result);
     });
 
+    app.get('/tourist_spots',async(req,res)=>{
+      const result = await touristSpotCollection.find().toArray()
+      res.send(result)
+    })
+
     app.post("/tourist_spots", async (req, res) => {
       const { body } = req;
       const result = await touristSpotCollection.insertOne(body);
