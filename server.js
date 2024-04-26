@@ -25,19 +25,21 @@ async function run() {
       .db("touristSpotDB")
       .collection("touristSpot");
 
-    app.get("/tourist_spots/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await touristSpotCollection.findOne(query);
-      res.send(result);
-    });
-
-    app.get("/my_tourist_spot/:email", async (req, res) => {
+    app.get("/tourist_spots/:email", async (req, res) => {
       const email = req.params.email;
-      console.log(email);
       const query = { email: email };
       const cursor = touristSpotCollection.find(query);
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.get("/update_tourist_spot/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      console.log("query", query);
+      const result = await touristSpotCollection.findOne(query);
+      console.log(result);
       res.send(result);
     });
 
@@ -45,6 +47,17 @@ async function run() {
       const { body } = req;
       const result = await touristSpotCollection.insertOne(body);
       res.send(result);
+    });
+
+    app.put("/update_tourist_spot/:id", async (req, res) => {
+      const id = req.params.id;
+      const spot = req.body;
+
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateSpot = {
+        $set: {},
+      };
     });
 
     app.delete("/tourist_spots/:id", async (req, res) => {
