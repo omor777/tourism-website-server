@@ -25,11 +25,11 @@ async function run() {
       .db("touristSpotDB")
       .collection("touristSpot");
 
-    app.get("/users", (req, res) => {
-      res.send([
-        { name: "Omor", age: 22 },
-        { name: "Faruk", age: 18 },
-      ]);
+    app.get("/tourist_spots/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await touristSpotCollection.findOne(query);
+      res.send(result);
     });
 
     app.get("/my_tourist_spot/:email", async (req, res) => {
