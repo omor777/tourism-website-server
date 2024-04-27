@@ -25,6 +25,10 @@ async function run() {
       .db("touristSpotDB")
       .collection("touristSpot");
 
+    const countriesCollection = client
+      .db("touristSpotDB")
+      .collection("countries");
+
     app.get("/tourist_spots/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
@@ -53,6 +57,11 @@ async function run() {
         .find()
         .sort({ average_cost: -1 })
         .toArray();
+      res.send(result);
+    });
+
+    app.get("/countries", async (req, res) => {
+      const result = await countriesCollection.find().toArray();
       res.send(result);
     });
 
