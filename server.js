@@ -43,10 +43,18 @@ async function run() {
       res.send(result);
     });
 
-    app.get('/tourist_spots',async(req,res)=>{
-      const result = await touristSpotCollection.find().toArray()
-      res.send(result)
-    })
+    app.get("/tourist_spots", async (_req, res) => {
+      const result = await touristSpotCollection.find().toArray();
+      res.send(result);
+    });
+
+    app.get("/sorted_tourist_spots", async (_req, res) => {
+      const result = await touristSpotCollection
+        .find()
+        .sort({ average_cost: -1 })
+        .toArray();
+      res.send(result);
+    });
 
     app.post("/tourist_spots", async (req, res) => {
       const { body } = req;
