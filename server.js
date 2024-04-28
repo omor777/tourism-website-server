@@ -60,6 +60,14 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/countries_tourist_spots/:country", async (req, res) => {
+      const country = req.params.country;
+
+      const query = { country_name: country };
+      const result = await touristSpotCollection.find(query).toArray();
+      res.send(result);
+    });
+
     app.get("/countries", async (req, res) => {
       const result = await countriesCollection.find().toArray();
       res.send(result);
